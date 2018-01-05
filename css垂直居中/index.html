@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    body{
+      margin: 0;
+    }
+    /* 方案1 */
+  .center{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 200px;
+    height: 200px;
+    background-color: red;
+  }
+  /* 方案2 */
+  .center2{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 200px;
+    height: 200px;
+    background-color: yellow;
+    transform:translate(-50%,-50%);
+  }
+  /* 方案3 */
+  .container3{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    /* height:100%这个概念是子节点相对于父容器而言；所以要让此属性生效，必要的一点就是：父容器必须具有具体的高度信息； */
+    height: 100%;
+    background-color: bisque;
+  }
+  .center3{
+    display: flex;  
+    width: 20%;
+    /* 当margin/padding取形式为百分比的值时，无论是left/right，还是top/bottom，都是以父元素的width为参照物的！ */
+    padding-bottom: 20%;
+    background-color: blue;
+    position: relative;
+  }
+  /* 正方形 */
+  .content3{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: aquamarine;
+  }
+  </style>
+</head>
+<body>
+  <div class="container" >
+    <div class="center">it is me</div>
+    <div class="center2">it is me2</div>
+    <div class="container3">
+      <div class="center3">
+        <div class="content">it is me3</div>
+        </div>
+    </div> 
+  </div>
+</body>
+</html>
