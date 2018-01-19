@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+      function deepClone(source) {
+        if (!source && typeof source !== 'object') {
+         return screen;
+        }
+        var targetObj = Array.isArray(source)? [] : {};
+        for (var keys in source) {
+          if (source.hasOwnProperty(keys)) {
+            if (source[keys] && typeof source[keys] === 'object') {
+              targetObj[keys] = Array.isArray(source[keys]) ? [] : {};
+              targetObj[keys] = deepClone(source[keys]);    //递归      
+            } else {
+              targetObj[keys] = source[keys];
+            }
+          }
+        }
+        return targetObj;
+      }
+  
+  </script>
+</body>
+</html>
