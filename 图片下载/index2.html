@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <img id="img" src="https://staticlive.douyucdn.cn/upload/signs/201703031609518839.png">
+  <canvas id="canvas"></canvas>
+  <a href='https://staticlive.douyucdn.cn/upload/signs/201703031609518839.png'>sssss</a>
+  
+  <!-- <script>
+    var funDownload = function (domImg, filename) {
+    // 创建隐藏的可下载链接
+    var eleLink = document.createElement('a');
+    eleLink.download = filename;
+    eleLink.innerText="afsdfas";
+    document.body.appendChild(eleLink);
+    // eleLink.style.display = 'none';
+    // 图片转base64地址
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    var width = domImg.natureWidth;
+    var height = domImg.natureHeight;
+    context.drawImage(domImg, 0, 0);
+    document.body.appendChild(canvas);
+    // 如果是PNG图片，则context.toDataURL('image/png')
+    eleLink.href = canvas.toDataURL('image/png');
+    console.log(333,canvas.toDataURL('image/png'))
+    // 触发点击
+    document.body.appendChild(eleLink);
+    // eleLink.click();
+    // 然后移除
+    // document.body.removeChild(eleLink);
+};
+setTimeout(function(){funDownload(document.getElementById("img"),"test");},2e3) -->
+
+    </script>
+</body>
+</html>
