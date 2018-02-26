@@ -16,7 +16,7 @@ if(typeof(Worker)!=="undefined")
   {
   if(typeof(w)=="undefined")
   {
-  w=new Worker("/demo/webWorker/workers.js");
+  w=new Worker("/demo/webWorker/worker.js");
   }
   w.onmessage = function (event) {
     document.getElementById("result").innerHTML=event.data;
