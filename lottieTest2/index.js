@@ -2,9 +2,9 @@
 
 var animation = bodymovin.loadAnimation({
   container: document.getElementById('bm'),
-  renderer: 'canvas',
+  renderer: 'html',
   loop: true,
   autoplay: true,
-  animationData:data3,
+  animationData:data,
   // path: data
 })

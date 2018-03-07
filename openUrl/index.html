@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <a href='http://haorenx.com/test.htm' target="_blink" id='link'>this is link</a>
+  test
+  <script>
+    //https://imququ.com/post/the-security-of-window-opener-location.html
+
+    const handle = (e) => {
+      setTimeout(function () {
+        // let x= window.open("http://haorenx.com/test.htm");
+        let x= window.open("http://baidu.com/test.htm");
+        console.log(11,x)
+        // x.opener=null;
+
+      }, 1e3)
+      e.preventDefault()
+
+    }
+    document.getElementById('link').addEventListener('click', handle);
+
+
+
+  </script>
+</body>
+
+</html>
