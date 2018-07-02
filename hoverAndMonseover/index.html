@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .hoverWrapper:hover .inner {
+      display: block;
+      position: absolute;
+    }
+
+    .hoverWrapper .inner {
+      display: none;
+    }
+
+    .inner {
+      border: 1px solid red;
+    }
+
+    #inner {
+      display: none;
+      position: absolute;
+      left: 300px;
+      top: 300px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hoverWrapper">
+    hover
+    <div class="inner">
+      this id hoverWrapper inner
+    </div>
+  </div>
+  <br/>
+  <div id='mouseover' class="mouseoverWrapper">
+    mouse over
+  </div>
+
+  <div id='inner' class="inner">
+    this is mouse over inner
+  </div>
+
+  <script>
+    const wrapper = document.getElementById('mouseover');
+    const inner = document.getElementById('inner');
+    wrapper.addEventListener('mouseenter', function () {
+      inner.style.display = 'block';
+    });
+    wrapper.addEventListener('mouseover', function () {
+      inner.style.display = 'block';
+    });
+    wrapper.addEventListener('mouseleave', function () {
+      inner.style.display = 'none';
+    });
+
+
+
+    const evt = document.createEvent("MouseEvents");
+    evt.initMouseEvent("mouseover", true, true, window, 0, 0, 0, 0, 0, false,
+      false, false, false, 0, null);
+    wrapper.dispatchEvent(evt);
+
+
+
+
+  </script>
+
+</body>
+
+</html>
