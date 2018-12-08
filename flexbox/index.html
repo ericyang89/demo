@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .container{
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .item{
+      flex: 1 1 auto;
+      background: red;
+    }
+    .item12{
+      background: blue;
+      flex:2 1 auto;
+    }
+
+    .container2{
+      display: flex;
+      width: 500px;
+      background: red;
+    }
+    .item2{
+      flex:1 1 auto;
+      width: 150px;
+      background: yellow;
+      overflow: hidden;
+    }
+    .item22{
+      flex: 1 2 auto;
+      background: blue;
+    }
+
+  
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="item item11">111</div>
+    <div class="item item12">222</div>
+    <div class="item item13">333</div>
+  </div>
+
+  <div>
+    总宽度500； 然而子元素对总宽度是600； 所以flex-shrink 生效
+  </div>
+  <div class="container2">
+    <div class="item2 item21">设计宽度150；显示宽度130；flex-shrink：1</div>
+    <div class="item2 item22" >设计宽度150；显示宽度110；flex-shrink：2</div>
+    <div class="item2 item23">设计宽度150；显示宽度130；flex-shrink：1</div>
+    <div class="item2 item24">设计宽度150；显示宽度130；flex-shrink：1</div>
+  </div>
+</body>
+</html>
