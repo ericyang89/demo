@@ -1,3 +1,4 @@
+// https://github.com/vividbytes/implementing-promises
 
 enum State {
   pending = 1,
