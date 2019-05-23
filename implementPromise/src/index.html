@@ -1,26 +1,32 @@
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<script>
+  "use strict";
 var Status;
 
-(function (Status) {
+  (function (Status) {
   Status[Status["pending"] = 1] = "pending";
   Status[Status["rejected"] = 2] = "rejected";
   Status[Status["resolved"] = 3] = "resolved";
 })(Status || (Status = {}));
 
 const noop = () => {};
+let index=0;
 
 class MyPromise {
-  constructor(exclutor) {
+  constructor(exclutor,) {
     this.value;
     this.reason;
     this.status = Status.pending;
     this._resolveArray = [];
     this._rejectArray = [];
+    this.name=index++;
 
     try {
       exclutor(this._reslove.bind(this), this._reject.bind(this));
@@ -33,17 +39,16 @@ class MyPromise {
     while (this._resolveArray.length > 0) {
       const item = this._resolveArray.shift();
 
-      if (noop === item.handle) {
+      let result;
+
+      if(noop===item.handle){
         continue;
       }
-
-      let result;
 
       try {
         result = item.handle(this.value);
       } catch (err) {
         item.promise._reject(err);
-        continue;
       }
 
       if (result && result instanceof MyPromise) {
@@ -67,7 +72,7 @@ class MyPromise {
     while (this._rejectArray.length > 0) {
       const item = this._rejectArray.shift();
 
-      if (noop === item.handle) {
+      if(noop===item.handle){
         continue;
       }
 
@@ -77,7 +82,7 @@ class MyPromise {
         result = item.handle(this.reason);
       } catch (err) {
         item.promise._reject(err);
-        continue;
+        
       }
 
       if (result && result instanceof MyPromise) {
@@ -92,7 +97,8 @@ class MyPromise {
         this.reason = result;
       }
 
-      item.promise._reject(this.reason);
+      item.promise._reject(this.reason); // item.promise._reslove(this.value);
+
     }
   }
 
@@ -145,11 +151,6 @@ class MyPromise {
       this._runResolveArray();
     }
 
-    if (this.status === Status.rejected) {
-      newPromise._reject(this.reason); // this._runResolveArray()
-
-    }
-
     return newPromise;
   }
 
@@ -170,7 +171,7 @@ class MyPromise {
     }
 
     if (this.status === Status.rejected) {
-      this._rejectArray.push({
+      this._resolveArray.push({
         handle: rejHandle,
         promise: newPromise
       });
@@ -183,4 +184,35 @@ class MyPromise {
 
 }
 
-exports.default = MyPromise;
+window.MyPromise=MyPromise;
+</script>
+<script>
+
+var testString = "foo";
+
+var promise = new MyPromise(function(resolve) {
+  setTimeout(function() {
+    resolve();
+  }, 20);
+});
+
+promise
+  .then(function() {
+    throw new Error("some Error");
+  })
+  .catch(function() {
+    return new MyPromise(function(resolve) {
+      setTimeout(function() {
+        debugger;
+        resolve(testString);
+      }, 20);
+    });
+  })
+  .then(function(value) {
+    alert(value)
+  });
+</script>
+<body>
+  
+</body>
+</html>

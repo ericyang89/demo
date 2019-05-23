@@ -1,155 +1,157 @@
-// https://github.com/vividbytes/implementing-promises
+import { catchClause } from "@babel/types";
 
-enum State {
-  pending = 1,
-  resolved = 2,
-  rejected = 3
+enum Status {
+  pending = "pending",
+  rejected = "rejected",
+  resolved = "resolved"
 }
-const noop=()=>undefined ;
-type Props={
-  _state:any;
-  _resolveArr:any
+const noop = () => {};
+let index = 0;
 
-}
+export default class MyPromise {
+  constructor(exclutor) {
+    this.value;
+    this.reason;
+    this.status = Status.pending;
+    this._resolveArray = [];
+    this._rejectArray = [];
+    this._name = index++;
 
-let index=0;
-export default class MyPromise<Props> {
-  constructor(exclutor,name=index++) {
-    this._state=State.pending;
-    this._resolveArr = [];
-    this._rejectArr = [];
-    this._data;
-    this._reason;
-    this._name=name;
-
-    try{
-      exclutor(this._resolve.bind(this), this._reject.bind(this));
-    }catch(err){
+    try {
+      exclutor(this._reslove.bind(this), this._reject.bind(this));
+    } catch (err) {
       this._reject(err);
     }
-
-    return this;
   }
-  _state:any;
-  _resolveArr;
-  _rejectArr;
-  _data;
-  _reason;
-  _name;
+  public value: any;
+  public reason: any;
+  public status: Status;
+  private _resolveArray: any[];
+  private _rejectArray: any[];
+  private _name: number;
 
-  static resolve=(val)=>{
-    if(val instanceof MyPromise){
-      return val;
-    }
-    return new MyPromise((res)=>{
-      res(val);
-    })
-  };
+  _runResolveArray() {
+    while (this._resolveArray.length > 0) {
+      const item = this._resolveArray.shift();
 
-  _runResolveHandler=()=>{
-    while(this._resolveArr.length>0){
-      const item = this._resolveArr.shift();
-      let functionResult:any;
-      try{
-        functionResult=item.handler(this._data);
-      }catch(error){
-        item.promise._reject(error);
+      if (noop === item.handle) {
         continue;
       }
 
-      if(functionResult!==null&&functionResult instanceof MyPromise){
-        functionResult.then((val:any)=>{
-          item.promise._resolve(val)
-        }).catch((reason:any)=>{
-          item.promise._reject(reason)
-        });
-      }else{
-        item.promise._resolve(functionResult);
+      let result;
+      try {
+        result = item.handle(this.value);
+      } catch (err) {
+        item.promise._reject(err);
       }
-      
-    }
-  };
 
-  _runRejectHandler=()=>{
-    while(this._rejectArr.length>0){
-      const item = this._rejectArr.shift();
-      let functionResult:any;
-
-      if(item.handler===noop){
+      if (result && result instanceof MyPromise) {
+        result
+          .then(val => {
+            item.promise._reslove(val);
+          })
+          .catch(err => {
+            item.promise._reject(err);
+          });
         continue;
       }
 
-      try{
-
-        functionResult=item.handler(this._reason);
-      } catch (error) {
-        item.promise._reject(error);
-        continue;
+      if (result !== undefined) {
+        this.value = result;
       }
 
-      if(functionResult!==null&&functionResult instanceof MyPromise){
-        functionResult.then((val:any)=>{
-          item.promise._resolve(val)
-        }).catch((reason:any)=>{
-          item.promise._reject(reason)
-        })
-      }else {
-        //激活下一个 promise
-        item.promise._resolve(functionResult)
-      }
-      
+      item.promise._reslove(this.value);
     }
   }
 
-  _resolve = (val:any) => {
-    if(this._state===State.pending){
-      this._state=State.resolved;
-      this._data=val;
-      this._runResolveHandler()
-    }  
-  };
+  _runRejectArray() {
+    while (this._rejectArray.length > 0) {
+      const item = this._rejectArray.shift();
+      if (noop === item.handle) {
+        continue;
+      }
+      let result;
+      try {
+        result = item.handle(this.reason);
+      } catch (err) {
+        item.promise._reject(err);
+      }
 
-  _reject = (reason:any) => {
-    if(this._state===State.pending){
-      this._state=State.rejected;
-      this._reason=reason;
-      this._runRejectHandler();
-      
-      // 触发下一个 promise 的 reject
-      while(this._resolveArr.length>0){
-        const item=this._resolveArr.shift();
-        item.promise._reject(this._reason);
+      if (result && result instanceof MyPromise) {
+        result
+          .then(val => {
+            item.promise._reslove(val);
+          })
+          .catch(err => {
+            item.promise._reject(err);
+          });
+        continue;
+      }
+
+      if (result !== undefined) {
+        this.reason = result;
+      }
+      item.promise._reslove(this.reason);
+    }
+  }
+
+  _reslove(val) {
+    // console.log(this._name,'resolve',this.status)
+    if (this.status === Status.pending) {
+      this.status = Status.resolved;
+      this.value = val;
+      this._runResolveArray();
+    }
+  }
+  _reject(reason) {
+    // console.log(this._name,'reject',this.status)
+    if (this.status === Status.pending) {
+      this.status = Status.rejected;
+      this.reason = reason;
+      this._runRejectArray();
+
+      while (this._resolveArray.length > 0) {
+        const item = this._resolveArray.shift();
+        item.promise._reject(this.reason);
       }
     }
-  };
-  then = (resolver:any, rejector:any=noop) => {
+  }
 
-    // 返回一个新的pormise
-    const newPromise=new MyPromise(()=>{});
-   
-    this._resolveArr.push({handler:resolver,promise:newPromise});
-    this._rejectArr.push({handler:rejector,promise:newPromise});
+  then(resHandle: any, rejHandle: any = noop) {
+    const newPromise = new MyPromise(() => {});
 
-    if(this._state===State.resolved){
-      this._runResolveHandler();
+    this._resolveArray.push({
+      handle: resHandle,
+      promise: newPromise
+    });
+    this._rejectArray.push({
+      handle: rejHandle,
+      promise: newPromise
+    });
+
+    if (this.status === Status.resolved) {
+      this._runResolveArray();
     }
-    if(this._state===State.rejected){
-      newPromise._reject(this._reason)
+
+    if (this.status === Status.rejected) {
+      newPromise._reject(this.reason);
     }
 
     return newPromise;
-  };
+  }
 
-  catch=(rejector:any)=>{
-     // 返回一个新的pormise
-     const newPromise=new MyPromise(()=>{});
+  catch(rejHandle) {
+    const newPromise = new MyPromise(() => {});
 
-     this._rejectArr.push({handler:rejector,promise:newPromise});
+    this._rejectArray.push({
+      handle: rejHandle,
+      promise: newPromise
+    });
 
-     if(this._state===State.rejected){
-      this._runRejectHandler();
-     }
+    if (this.status === Status.rejected) {
+      this._runRejectArray();
+    }
 
-     return newPromise;
+    return newPromise;
   }
 }

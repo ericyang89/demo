@@ -9,7 +9,7 @@ test("executor function is called immediately", function() {
   });
 
   expect(string).toBe("foo");
-});
+},500);
 
 // 2
 it("resolution handler is called when promise is resolved", function(done) {
@@ -25,7 +25,7 @@ it("resolution handler is called when promise is resolved", function(done) {
     expect(string).toBe(testString);
     done();
   });
-});
+},500);
 
 // 3
 it("promise supports many resolution handlers", function(done) {
@@ -45,7 +45,7 @@ it("promise supports many resolution handlers", function(done) {
     expect(string).toBe(testString);
     done();
   });
-});
+},500);
 
 // 4
 it("resolution handlers can be chained", function(done) {
@@ -69,7 +69,7 @@ it("resolution handlers can be chained", function(done) {
       expect(string).toBe(testString);
       done();
     });
-});
+},500);
 
 // 5
 it("chaining works with non-promise return values", function(done) {
@@ -89,7 +89,7 @@ it("chaining works with non-promise return values", function(done) {
       expect(string).toBe(testString);
       done();
     });
-});
+},500);
 
 // 6
 it("resolution handlers can be attached when promise is resolved", function(done) {
@@ -109,7 +109,7 @@ it("resolution handlers can be attached when promise is resolved", function(done
       });
     }, 20);
   });
-});
+},500);
 
 // 7
 it("calling resolve second time has no effect", function(done) {
@@ -133,7 +133,7 @@ it("calling resolve second time has no effect", function(done) {
       });
     }, 20);
   });
-});
+},500);
 
 // 8
 it("rejection handler is called when promise is rejected", function(done) {
@@ -149,7 +149,7 @@ it("rejection handler is called when promise is rejected", function(done) {
     expect(value).toBe(testError);
     done();
   });
-});
+},500);
 
 // 9
 it("rejections are passed downstream", function(done) {
@@ -175,7 +175,7 @@ it("rejections are passed downstream", function(done) {
       expect(value).toBe(testError);
       done();
     });
-});
+},500);
 
 // 10
 it("rejecting promises returned from resolution handlers are caught properly", function(done) {
@@ -199,7 +199,7 @@ it("rejecting promises returned from resolution handlers are caught properly", f
       expect(value).toBe(testError);
       done();
     });
-});
+},500);
 
 // 11
 test("rejection handlers catch synchronous errors in resolution handlers", function(done) {
@@ -219,7 +219,7 @@ test("rejection handlers catch synchronous errors in resolution handlers", funct
       expect(value).toBe(testError);
       done();
     });
-});
+},500);
 
 it("rejection handlers catch synchronous errors in the executor function", function(done) {
   var testError = new Error("Something went wrong");
@@ -240,7 +240,7 @@ it("rejection handlers catch synchronous errors in the executor function", funct
       expect(value).toBe(testError);
       done();
     });
-});
+},500);
 
 test("rejection handlers catch synchronous erros", function(done) {
   var testError = new Error("Something went wrong");
@@ -262,7 +262,7 @@ test("rejection handlers catch synchronous erros", function(done) {
       expect(value).toBe(testError);
       done();
     });
-});
+},500);
 
 it('chaining works after "catch"', function(done) {
   var testString = "foo";
@@ -288,7 +288,7 @@ it('chaining works after "catch"', function(done) {
       expect(value).toBe(testString);
       done();
     });
-});
+},500);
 
 it("rejecting promises returned from rejection handlers are caught properly", function(done) {
   var testError = new Error("Something went wrong");
@@ -314,7 +314,7 @@ it("rejecting promises returned from rejection handlers are caught properly", fu
       expect(value).toBe(testError);
       done();
     });
-});
+},500);
 
 it("second argument in then is treated as a rejection handler", function(done) {
   var testError = new Error("Something went wrong");
@@ -333,7 +333,7 @@ it("second argument in then is treated as a rejection handler", function(done) {
       return undefined;
     }
   );
-});
+},500);
 
 it("second argument in then is attached to the promise then is called on", function(done) {
   var testError = new Error("Something went wrong");
@@ -363,4 +363,4 @@ it("second argument in then is attached to the promise then is called on", funct
       expect(didRun).toBe(false);
       done();
     });
-});
+},500);
