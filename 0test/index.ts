@@ -1,4 +1,0 @@
-var lengthOfLongestSubstring = function(s) {
- 
-    
-};

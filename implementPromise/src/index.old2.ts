@@ -1,12 +1,9 @@
-import { catchClause } from "@babel/types";
-
 enum Status {
   pending = "pending",
   rejected = "rejected",
   resolved = "resolved"
 }
 const noop = () => {};
-let index = 0;
 
 export default class MyPromise {
   constructor(exclutor) {
@@ -15,7 +12,6 @@ export default class MyPromise {
     this.status = Status.pending;
     this._resolveArray = [];
     this._rejectArray = [];
-    this._name = index++;
 
     try {
       exclutor(this._reslove.bind(this), this._reject.bind(this));
@@ -28,7 +24,6 @@ export default class MyPromise {
   public status: Status;
   private _resolveArray: any[];
   private _rejectArray: any[];
-  private _name: number;
 
   _runResolveArray() {
     while (this._resolveArray.length > 0) {

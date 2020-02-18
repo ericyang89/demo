@@ -1,0 +1,28 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "for some small demonstration  Your site is published at [ericyang89.github.io/demo/](https://ericyang89.github.io/demo/)",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watchAll"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ericyang89/demo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.7.5",
+    "@babel/preset-env": "^7.7.6",
+    "@babel/preset-typescript": "^7.7.4",
+    "@types/jest": "^24.0.23",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0"
+  },
+  "bugs": {
+    "url": "https://github.com/ericyang89/demo/issues"
+  },
+  "homepage": "https://github.com/ericyang89/demo#readme"
+}
